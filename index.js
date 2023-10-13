@@ -58,6 +58,30 @@ const resolvers = {
                 g.id === parent.game_id
             ))
         }
+    },
+    Mutation: {
+        deleteGame(_,args){
+            data.games = data.games.filter(
+                (g) => (g.id !== args.id)
+            )
+            return data.games
+        },
+        addGame(_,args){
+            let game = {...args.game, id:Math.floor(Math.random()*10000).toString()}
+            data.games.push(game)
+            return game
+        },
+        updateGame(_,args){
+            data.games = data.games.map(
+                (g) => {
+                    if(g.id === args.id){
+                        return {...g, ...args.edits}
+                    }
+                    return g
+                }
+            )
+            return data.games.find((g)=>g.id === args.id)
+        }
     }
 }
 
